@@ -15,15 +15,12 @@ let myTimeOut;
 let debounceTime = 200;
 
 searchInput.addEventListener('keyup', (event) => {
-  if (searchInput.value == 0) {
-    return;
-  }
   if (clickedRepository) {
     clickedRepository.classList.remove('menu-item--active');
   }
   if (searchInput.value == 0) {
     autoCompleteMenu.classList.remove('menu--active');
-    return
+    return;
   }else {
     timeArr.push(Date.now());
     if (timeArr.length > 1 && (timeArr[timeArr.length - 1] - timeArr[timeArr.length -2] < debounceTime)) {
@@ -55,9 +52,10 @@ autoCompleteMenu.addEventListener('click', (event) => {
   clickedRepository = event.target;
   clickedRepository.classList.add('menu-item--active');
   repList.classList.add('menu--active');
-  if (someMap.get(clickedRepository))
+  if (someMap.get(clickedRepository)) {
     repList.insertAdjacentHTML("afterbegin", someMap.get(clickedRepository));
-  someMap.delete(clickedRepository);
+    someMap.delete(clickedRepository);
+  }
 });
 
 function mapFunction (arg, argObj) {
