@@ -15,6 +15,9 @@ let myTimeOut;
 let debounceTime = 200;
 
 searchInput.addEventListener('keyup', (event) => {
+  if (searchInput.value == 0) {
+    return;
+  }
   if (clickedRepository) {
     clickedRepository.classList.remove('menu-item--active');
   }
@@ -27,21 +30,17 @@ searchInput.addEventListener('keyup', (event) => {
       clearTimeout(myTimeOut);
       myTimeOut = setTimeout(() => {
         let requestResult = getGithubReposity(searchInput.value);
-        if (requestResult) {
-          requestResult.then(results => {
-            setMenuItems(results.items);
-          });
-        }
+        requestResult.then(results => {
+          setMenuItems(results.items);
+        });
       }, debounceTime)
       return;
     }
     myTimeOut = setTimeout(() => {
       let requestResult = getGithubReposity(searchInput.value);
-      if (requestResult) {
-        requestResult.then(results => {
-          setMenuItems(results.items);
-        })
-      }
+      requestResult.then(results => {
+        setMenuItems(results.items);
+      })
     }, debounceTime)
   }
 })
@@ -58,8 +57,8 @@ autoCompleteMenu.addEventListener('click', (event) => {
   repList.classList.add('menu--active');
   if (someMap.get(clickedRepository))
     repList.insertAdjacentHTML("afterbegin", someMap.get(clickedRepository));
-    someMap.delete(clickedRepository);
-})
+  someMap.delete(clickedRepository);
+});
 
 function mapFunction (arg, argObj) {
   let str = `
